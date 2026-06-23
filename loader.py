@@ -47,7 +47,7 @@ def load_data_wrapper() -> tuple[
     list[tuple[np.ndarray, np.ndarray]],
     list[tuple[np.ndarray, int]],
     list[tuple[np.ndarray, int]]
-]:
+    ]:
     """
     ``training_data`` is a list containing 50,000
     2-tuples ``(x, y)``.  ``x`` is a 784-dimensional numpy.ndarray
