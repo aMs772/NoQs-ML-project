@@ -1,4 +1,5 @@
 import numpy as np
+import random
 
 class Network:
 
@@ -80,6 +81,39 @@ class Network:
         self.biases = [b - (eta/len(mini_batch))*nb for b, nb in zip(self.biases, nabla_b)]
         self.weights = [w - (eta/len(mini_batch))*nw for w, nw in zip(self.weights, nabla_w)]
 
+    def evaluate(self, test_data):
+        """Return the number of test inputs for which the neural
+        network outputs the correct result. Note that the neural
+        network's output is assumed to be the index of whichever
+        neuron in the final layer has the highest activation."""
+
+        test_results=[(np.argmax(self.feedforward(x)), y) for x,y in test_data]
+        return sum(x==y for x,y in test_results)
+
     # stochastic gradient descent
     def SGD(self, training_data, epochs, mini_batch_size, eta, test_data=None):
-        pass
+        """The ``training_data`` is a list of tuples
+        ``(x, y)`` representing the training inputs and the desired
+        outputs. If ``test_data`` is provided then the
+        network will be evaluated against the test data after each
+        epoch, and partial progress printed out.  This is useful for
+        tracking progress, but slows things down substantially.
+        """
+        
+        if test_data: n_test = len(test_data)
+
+        n = len(training_data)
+        for i in range(epochs):
+            random.shuffle(training_data)
+            mini_batches = [
+                training_data[k:k+ mini_batch_size] for k in range(0,n,mini_batch_size)
+                ]
+            for mini_batch in mini_batches:
+                self.update_mini_batch(mini_batch, eta)
+            
+            if test_data:
+                print(f"Epoch {i}: {self.evaluate(test_data)} / {n_test}")
+            else:
+                print(f"Epoch {i} complete")
+        
+
