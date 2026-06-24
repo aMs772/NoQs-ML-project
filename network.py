@@ -50,7 +50,7 @@ class Network:
         nabla_w[-1] = delta@activations[-2].transpose()
         for l in range(2, self.num_layers):
             z = zs[-l]
-            delta = (self.weights[-l].transpose()@delta)*self.sigmoid_prime(z)
+            delta = (self.weights[-l+1].transpose()@delta)*self.sigmoid_prime(z)
             nabla_b[-l] = delta
             nabla_w[-l] = delta@activations[-l-1].transpose()
         return (nabla_b, nabla_w)
