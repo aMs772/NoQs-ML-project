@@ -29,7 +29,7 @@ def load_data() -> tuple[
     """
 
     with gzip.open('data/mnist.pkl.gz', 'rb') as f:
-        training_data, validation_data, test_data = pickle.load(f)
+        training_data, validation_data, test_data = pickle.load(f, encoding='latin1')
     return (training_data, validation_data, test_data)
 
 def vectorised_result(j: int) -> np.ndarray:
@@ -62,7 +62,7 @@ def load_data_wrapper() -> tuple[
     corresponding to ``x``.
     """
     tr_d, va_d, te_d = load_data()
-    training_inputs = [np.reshape(x, (781,1)) for x in tr_d[0]]
+    training_inputs = [np.reshape(x, (784,1)) for x in tr_d[0]]
     training_results = [vectorised_result(y) for y in tr_d[1]]
     # zip dosen't create a list in python3
     training_data = list(zip(training_inputs,training_results))
