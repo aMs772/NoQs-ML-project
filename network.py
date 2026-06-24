@@ -7,7 +7,7 @@ class Network:
         self.num_layers = len(sizes)
         self.sizes = sizes
         self.biases = [np.random.randn(y,1) for y in sizes[1:]]
-        self.weights = [np.random.rand(y,x) for x,y in zip(sizes[:-1],sizes[1:])]
+        self.weights = [np.random.randn(y,x) for x,y in zip(sizes[:-1],sizes[1:])]
     
     @staticmethod
     def sigmoid(z):
@@ -15,7 +15,8 @@ class Network:
     
     @staticmethod
     def sigmoid_prime(z):
-        return Network.sigmoid(z)*(1-Network.sigmoid(z))
+        a = Network.sigmoid(z)
+        return a*(1-a)
     
     def feedforward(self, a: np.ndarray) -> np.ndarray:
         # returns output for input a
